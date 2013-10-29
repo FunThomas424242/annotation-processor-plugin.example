@@ -1,5 +1,6 @@
 package gh.funthomas424242.annotations;
 
+import gh.funthomas424242.annotations.numbers.Cardinal;
 import gh.funthomas424242.annotations.numbers.CardinalEclipseAnnotationProcessor;
 
 import java.util.ArrayList;
@@ -14,6 +15,13 @@ import com.sun.mirror.declaration.AnnotationTypeDeclaration;
 
 public class AnnotationFactory implements AnnotationProcessorFactory {
 
+    
+    private static ArrayList<String> annotations = new ArrayList<String>();
+
+    {
+	annotations.add(Cardinal.class.getName());
+    }
+    
     public Collection<String> supportedOptions() {
 	return Collections.emptyList();
     }
@@ -28,10 +36,6 @@ public class AnnotationFactory implements AnnotationProcessorFactory {
 	return new CardinalEclipseAnnotationProcessor(env);
     }
 
-    private static ArrayList<String> annotations = new ArrayList<String>();
-
-    {
-	annotations.add(CardinalEclipseAnnotationProcessor.class.getName());
-    }
+   
 
 }

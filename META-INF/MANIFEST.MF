@@ -5,4 +5,10 @@ Bundle-SymbolicName: annotation.plugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: FunThomas424242
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.eclipse.jdt.apt.core
+Require-Bundle: org.eclipse.jdt.apt.core,
+ org.eclipse.core.runtime
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-Activator: gh.funthomas424242.annotations.AnnotationPlugin
+Export-Package: gh.funthomas424242.annotations,
+ gh.funthomas424242.annotations.numbers
