@@ -43,8 +43,10 @@ Benutzung/Ausprobieren
 1. Projekt lokal ausschecken - git clone
 2. Export als jar - mittels Eclipse Export Deployable Features
 3. Einbinden des jars in einem Testprojekt über Projekt/Properties/JavaCompiler/Annotation Processing
+
 3.1. src-gen als Ausgabe Verzeichnis festlegen
 ![src Verzeichnis festlegen](src/main/resources/images/GenSrcFestlegen.png)
+
 3.2. Annotation Processor festlegen
 ![Annotation Processor aufnehmen](src/main/resources/images/AnnotationProcessorFestlegen.png)
 
