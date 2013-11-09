@@ -85,5 +85,10 @@ Benutzung/Ausprobieren
 
 ![Annotation Processor aufnehmen](src/main/resources/images/TestKlasseMarker.png)
 
+3.5. Generierte Klassen
+
+![Annotation Processor aufnehmen](src/main/resources/images/GeneratedClasses.png)
+
+
 
 
