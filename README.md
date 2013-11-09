@@ -51,7 +51,7 @@ Benutzung/Ausprobieren
 ![Annotation Processor aufnehmen](src/main/resources/images/AnnotationProcessorFestlegen.png)
 
 
-*Beispiel Klasse zum Testen der Annotationen*
+3.3. Beispiel Klasse zum Testen der Annotationen
 
 
 	package test.annotations;
@@ -80,6 +80,10 @@ Benutzung/Ausprobieren
 	    }
 	
 	}
+
+3.4. Testklasse mit Markierungen
+
+![Annotation Processor aufnehmen](src/main/resources/images/TestKlasseMarker.png)
 
 
 
