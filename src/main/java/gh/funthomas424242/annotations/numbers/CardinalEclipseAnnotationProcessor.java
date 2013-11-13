@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.eclipse.jdt.apt.core.internal.declaration.FieldDeclarationImpl;
-
 import com.sun.mirror.apt.AnnotationProcessor;
 import com.sun.mirror.apt.AnnotationProcessorEnvironment;
 import com.sun.mirror.apt.Filer;
@@ -20,6 +18,9 @@ import com.sun.mirror.declaration.AnnotationTypeDeclaration;
 import com.sun.mirror.declaration.AnnotationTypeElementDeclaration;
 import com.sun.mirror.declaration.AnnotationValue;
 import com.sun.mirror.declaration.Declaration;
+import com.sun.mirror.declaration.FieldDeclaration;
+import com.sun.mirror.declaration.MethodDeclaration;
+import com.sun.mirror.declaration.ParameterDeclaration;
 import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.util.SourcePosition;
 
@@ -31,6 +32,8 @@ public class CardinalEclipseAnnotationProcessor implements AnnotationProcessor {
     private static final String GENERATED_BASE_TYPE = "Cardinal";
     private static final String PARAMETER_NAME_MAX = "max";
     private static final String PARAMETER_NAME_MIN = "min";
+    private static final String TXT_TYPE = "You should be change the type";
+    private static final String TXT_RETURNTYPE = "You should be change the returned type";
 
     private final static Logger LOG = Logger
 	    .getLogger(CardinalEclipseAnnotationProcessor.class.getName());
@@ -165,28 +168,46 @@ public class CardinalEclipseAnnotationProcessor implements AnnotationProcessor {
 
     }
 
-    private void checkTypeName(Messager messager, Declaration decl,
+    private void checkTypeName(final Messager messager, final Declaration decl,
 	    AnnotationMirror mirror, final int valueMin, final int valueMax) {
 
-	final String generatedTypeName = createGeneratedClassName(valueMin,
-		valueMax);
-	final SourcePosition mirrorPosition = mirror.getPosition();
+	final String generatedTypeName = createGeneratedFileName(
+		GENERATED_BASE_PACKAGE, valueMin, valueMax);
 
-	if (decl instanceof FieldDeclarationImpl) {
-	    final FieldDeclarationImpl fieldDecl = (FieldDeclarationImpl) decl;
-	    final TypeMirror typeMirror = fieldDecl.getType();
+	addTypeExchangeHintIfNeeded(messager, generatedTypeName, decl, TXT_TYPE);
 
-	    if (!generatedTypeName.endsWith(typeMirror.toString())) {
+	
+    }
 
-		messager.printWarning(
-			mirrorPosition,
-			"You should be change the type from "
-				+ typeMirror.toString() + " to "
-				+ generatedTypeName + " !");
+    private void addTypeExchangeHintIfNeeded(final Messager messager,
+	    final String generatedTypeName, final Declaration decl, final String text) {
+
+	final TypeMirror typeMirror = getTypeMirrorOf(decl);
+	if (typeMirror != null) {
+
+	    final String varTypeName = typeMirror.toString();
+
+	    if (!generatedTypeName.equals(varTypeName)) {
+		final String message=text+" from " + varTypeName
+			+ " to " + generatedTypeName + " !";
+		messager.printWarning(decl.getPosition(),
+			message);
 	    }
-
 	}
+    }
 
+    private TypeMirror getTypeMirrorOf(final Declaration decl) {
+	TypeMirror typeMirror = null;
+	if (decl instanceof FieldDeclaration) {
+	    typeMirror = ((FieldDeclaration) decl).getType();
+	}
+	if (decl instanceof ParameterDeclaration) {
+	    typeMirror = ((ParameterDeclaration) decl).getType();
+	}
+	if (decl instanceof MethodDeclaration) {
+	    typeMirror = ((MethodDeclaration) decl).getReturnType();
+	}
+	return typeMirror;
     }
 
     private String createGeneratedClassName(final int valueMin,
