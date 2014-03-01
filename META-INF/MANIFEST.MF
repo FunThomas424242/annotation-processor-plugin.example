@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Plugin
-Bundle-SymbolicName: annotation.plugin;singleton:=true
+Bundle-Name: Cardinal Annotation Processor Plugin
+Bundle-SymbolicName: cardinal.annotationprocessor.plugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: FunThomas424242
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

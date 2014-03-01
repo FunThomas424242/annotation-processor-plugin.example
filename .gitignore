@@ -9,3 +9,5 @@
 /target
 
 /.settings
+/src-gen
+/.apt_generated

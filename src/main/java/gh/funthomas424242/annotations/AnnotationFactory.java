@@ -1,7 +1,7 @@
 package gh.funthomas424242.annotations;
 
 import gh.funthomas424242.annotations.numbers.Cardinal;
-import gh.funthomas424242.annotations.numbers.CardinalEclipseAnnotationProcessor;
+import gh.funthomas424242.annotations.numbers.processors.CardinalAnnotationProcessorJDK5;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class AnnotationFactory implements AnnotationProcessorFactory {
     public AnnotationProcessor getProcessorFor(
 	    Set<AnnotationTypeDeclaration> atds,
 	    AnnotationProcessorEnvironment env) {
-	return new CardinalEclipseAnnotationProcessor(env);
+	return new CardinalAnnotationProcessorJDK5(env);
     }
 
    
