@@ -1,0 +1,7 @@
+<factorypath>
+    <factorypathentry kind="PLUGIN" id="ungerade.annotationprocessor.plugin" enabled="false" runInBatchMode="false"/>
+    <factorypathentry kind="PLUGIN" id="cardinal.annotationprocessor.plugin" enabled="false" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\tmp\plugins\annotation.numbers_1.0.0.SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\tmp\plugins\cardinal.annotationprocessor.plugin_1.0.0.SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\tmp\plugins\ungerade.annotationprocessor.plugin_1.0.0.SNAPSHOT.jar" enabled="true" runInBatchMode="false"/>
+</factorypath>

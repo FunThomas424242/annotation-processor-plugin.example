@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Numbers Annotation Processor Plugin
+Bundle-SymbolicName: test.annotationprocessor.plugin;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: FunThomas424242
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.eclipse.jdt.apt.core,
+ org.eclipse.core.runtime,
+ annotation.numbers,
+ cardinal.annotationprocessor.plugin,
+ ungerade.annotationprocessor.plugin
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Export-Package: test
