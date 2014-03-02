@@ -1,27 +1,63 @@
 package gh.funthomas424242.annotations.numbers.processors;
 
+import gh.funthomas424242.annotations.numbers.Ungerade;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.SourceVersion;
+import javax.tools.Diagnostic.Kind;
+import javax.tools.JavaFileObject;
 
-@SupportedAnnotationTypes(value = { "gh.funthomas424242.annotations.numbers.UngeradeZahl" })
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
-public class UngeradeZahlAnnotationProcessorJDK6 extends AbstractProcessor
+@SupportedAnnotationTypes(value = { "gh.funthomas424242.annotations.numbers.Ungerade" })
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
+public class UngeradeAnnotationProcessorJDK6 extends AbstractProcessor
         implements Processor {
 
-    private final static Logger LOG = Logger
-            .getLogger(UngeradeZahlAnnotationProcessorJDK6.class.getName());
+    private static final String GENERATED_BASE_PACKAGE = "gh.funthomas424242.checked.numbers";
+    private static final String GENERATED_BASE_TYPE = "UngeradeZahl";
+    // private static final String PARAMETER_NAME_MAX = "max";
+    // private static final String PARAMETER_NAME_MIN = "min";
+    private static final String TXT_TYPE = "You should be change the type";
+    // private static final String TXT_RETURNTYPE =
+    // "You should be change the returned type";
+    //
 
-    // public UngeradeZahlAnnotationProcessorJDK6() {
-    // super();
-    // }
+    private final static Logger LOG = Logger
+            .getLogger(UngeradeAnnotationProcessorJDK6.class.getName());
+
+    private Messager messager;
+    private Filer filer;
+
+    public UngeradeAnnotationProcessorJDK6() {
+        super();
+    }
+
+    @Override
+    public synchronized void init(final ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
+        this.messager = processingEnv.getMessager();
+        this.filer = processingEnv.getFiler();
+    }
+
+    private void logInfo(final String message) {
+        LOG.info(message);
+    }
 
     /**
      * simple write out the annotations of TypeElement
@@ -30,22 +66,79 @@ public class UngeradeZahlAnnotationProcessorJDK6 extends AbstractProcessor
     public boolean process(final Set<? extends TypeElement> annotations,
             final RoundEnvironment roundEnv) {
 
-        for (final TypeElement element : annotations) {
-            System.out.println(element.getQualifiedName());
+        for (final TypeElement annotation : annotations) {
+            final Set<? extends Element> elements = roundEnv
+                    .getElementsAnnotatedWith(annotation);
+
+            for (final Element element : elements) {
+                writeFile(element);
+                checkTypeName(messager, element);
+            }
         }
 
         return true;
     }
 
-    // private static final String GENERATED_BASE_PACKAGE =
-    // "gh.funthomas424242.checked.numbers";
-    // private static final String GENERATED_BASE_TYPE = "Cardinal";
-    // private static final String PARAMETER_NAME_MAX = "max";
-    // private static final String PARAMETER_NAME_MIN = "min";
-    // private static final String TXT_TYPE = "You should be change the type";
-    // private static final String TXT_RETURNTYPE =
-    // "You should be change the returned type";
-    //
+    private void checkTypeName(final Messager messager, final Element element) {
+
+        final String generatedTypeName = createGeneratedFileName(GENERATED_BASE_PACKAGE);
+
+        final TypeMirror typeMirror = element.asType();
+        if (typeMirror != null) {
+
+            final String varTypeName = typeMirror.toString();
+
+            if (!generatedTypeName.equals(varTypeName)) {
+                final String message = TXT_TYPE + " from " + varTypeName
+                        + " to " + generatedTypeName + " !";
+                messager.printMessage(Kind.WARNING, message, element);
+            }
+        }
+    }
+
+    private void writeFile(final Element element) {
+
+        try {
+
+            final String fileName = createGeneratedFileName(GENERATED_BASE_PACKAGE);
+            final String className = createGeneratedClassName();
+
+            final JavaFileObject fo = filer.createSourceFile(fileName, element);
+            final Writer w = fo.openWriter();
+            w.append(getCode(GENERATED_BASE_PACKAGE, className));
+            w.close();
+        } catch (final IOException ioe) {
+            ioe.printStackTrace();
+        }
+    }
+
+    protected String getCode(final String packageName, final String typeName) {
+
+        return "package "
+                + packageName
+                + ";\n\npublic class "
+                + typeName
+                + " { \n\n"
+                + "  final private Integer value; \n\n"
+                + "  public "
+                + typeName
+                + " (final int zahl) { \n"
+                + "   if ((zahl % 2) == 0) { \n"
+                + "     throw new IllegalArgumentException(\"Value\" + zahl + \" is not odd.\"); \n   } \n"
+                + "   value = zahl;\n" + "}  \n"
+                + "public Integer getValue() {\n" + "  return value;  \n"
+                + "}\n" + "}\n";
+
+    }
+
+    private String createGeneratedFileName(final String packageName) {
+        return packageName + "." + createGeneratedClassName();
+    }
+
+    private String createGeneratedClassName() {
+        return GENERATED_BASE_TYPE;
+    }
+
     //
     //
     // private final static Set<String> VALID_PARAMETERS = new
@@ -64,9 +157,6 @@ public class UngeradeZahlAnnotationProcessorJDK6 extends AbstractProcessor
     // return environment;
     // }
     //
-    private void logInfo(final String message) {
-        LOG.info(message);
-    }
 
     // // @Override comment out to compile with newer jdk
     // public void process() {
@@ -132,93 +222,9 @@ public class UngeradeZahlAnnotationProcessorJDK6 extends AbstractProcessor
     //
     // }
     //
-    // private void writeFile(final int validMinValue, final int validMaxValue)
-    // {
+
     //
-    // try {
-    // final Filer f = getEnvironment().getFiler();
-    //
-    // final String fileName = createGeneratedFileName(
-    // GENERATED_BASE_PACKAGE, validMinValue, validMaxValue);
-    //
-    // final PrintWriter pw = f.createSourceFile(fileName);
-    // final String className = createGeneratedClassName(validMinValue,
-    // validMaxValue);
-    //
-    // pw.print(getCode(GENERATED_BASE_PACKAGE, className, validMinValue,
-    // validMaxValue));
-    // pw.flush();
-    // pw.close();
-    // } catch (final IOException ioe) {
-    // ioe.printStackTrace();
-    // }
-    // }
-    //
-    // protected String getCode(final String packageName, final String typeName,
-    // final int minValue, final int maxValue) {
-    //
-    // return "package "
-    //
-    // + packageName
-    // + ";"
-    // + "\n\n"
-    // + "public class "
-    // + typeName
-    // + "\n {\n\n"
-    // + " private Integer cardinalValue;\n\n"
-    // + "   public "
-    // + typeName
-    // + "(final Integer cardinalValue)\n"
-    // + "    {"
-    // + "\n"
-    // + " if (cardinalValue==null ) { \n"
-    // +
-    // "         throw new IllegalArgumentException(\"No cardinalValue defined - means null was applied.\");\n"
-    // + " }else if (cardinalValue.intValue()<0 ) {\n"
-    // +
-    // "         throw new IllegalArgumentException(\"A cardinal must be >= 0 !\");\n"
-    // + " }else if (cardinalValue.intValue()<"
-    // + minValue
-    // + "|| cardinalValue.intValue()>"
-    // + maxValue
-    // + ") {\n"
-    // +
-    // "     throw new IllegalArgumentException(\"The cardinal must be pass the condition "
-    // + minValue + " >= x <=" + maxValue + " !\");\n" + " }\n"
-    // + "       this.cardinalValue=cardinalValue; \n" + "   }\n\n"
-    // + "public Integer getValue(){\n" + "" + "" + "" + ""
-    // + "\n   return this.cardinalValue;\n" + "}\n" + "\n" + "}";
-    //
-    // }
-    //
-    // private void checkTypeName(final Messager messager, final Declaration
-    // decl,
-    // final AnnotationMirror mirror, final int valueMin,
-    // final int valueMax) {
-    //
-    // final String generatedTypeName = createGeneratedFileName(
-    // GENERATED_BASE_PACKAGE, valueMin, valueMax);
-    //
-    // addTypeExchangeHintIfNeeded(messager, generatedTypeName, decl, TXT_TYPE);
-    //
-    // }
-    //
-    // private void addTypeExchangeHintIfNeeded(final Messager messager,
-    // final String generatedTypeName, final Declaration decl,
-    // final String text) {
-    //
-    // final TypeMirror typeMirror = getTypeMirrorOf(decl);
-    // if (typeMirror != null) {
-    //
-    // final String varTypeName = typeMirror.toString();
-    //
-    // if (!generatedTypeName.equals(varTypeName)) {
-    // final String message = text + " from " + varTypeName + " to "
-    // + generatedTypeName + " !";
-    // messager.printWarning(decl.getPosition(), message);
-    // }
-    // }
-    // }
+
     //
     // private TypeMirror getTypeMirrorOf(final Declaration decl) {
     // TypeMirror typeMirror = null;
@@ -234,15 +240,7 @@ public class UngeradeZahlAnnotationProcessorJDK6 extends AbstractProcessor
     // return typeMirror;
     // }
     //
-    // private String createGeneratedClassName(final int valueMin,
-    // final int valueMax) {
-    // return GENERATED_BASE_TYPE + valueMin + "Bis" + valueMax;
-    // }
-    //
-    // private String createGeneratedFileName(final String packageName,
-    // final int valueMin, final int valueMax) {
-    // return packageName + "." + createGeneratedClassName(valueMin, valueMax);
-    // }
+
     //
     // private void checkMinMaxRelation(final Messager messager,
     // final AnnotationMirror mirror, final AnnotationValue valueMin,

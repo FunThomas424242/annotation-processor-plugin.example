@@ -26,6 +26,7 @@ import com.sun.mirror.declaration.ParameterDeclaration;
 import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.util.SourcePosition;
 
+// this annotations are not available in jdk1.5 (from javax.annotation.processing.*)
 //@SupportedAnnotationTypes(value = { "gh.funthomas424242.annotations.numbers.Cardinal" })
 //@SupportedSourceVersion(SourceVersion.RELEASE_5)
 public class CardinalAnnotationProcessorJDK5 implements AnnotationProcessor {
@@ -35,8 +36,6 @@ public class CardinalAnnotationProcessorJDK5 implements AnnotationProcessor {
     private static final String PARAMETER_NAME_MAX = "max";
     private static final String PARAMETER_NAME_MIN = "min";
     private static final String TXT_TYPE = "You should be change the type";
-    private static final String TXT_RETURNTYPE = "You should be change the returned type";
-
     private final static Logger LOG = Logger
             .getLogger(CardinalAnnotationProcessorJDK5.class.getName());
 

@@ -9,9 +9,9 @@
 	      </factory>
       </factories>
       <java6processors
-            enableDefault="false">
+            enableDefault="true">
          <java6processor
-               class="gh.funthomas424242.annotations.numbers.processors.UngeradeZahlAnnotationProcessorJDK6">
+               class="gh.funthomas424242.annotations.numbers.processors.UngeradeAnnotationProcessorJDK6">
          </java6processor>
       </java6processors>
    </extension>

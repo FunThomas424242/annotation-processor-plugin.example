@@ -5,6 +5,6 @@ import java.lang.annotation.Target;
 
 @Target(value = { ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
         ElementType.LOCAL_VARIABLE })
-public @interface UngeradeZahl {
+public @interface Ungerade {
 
 }
