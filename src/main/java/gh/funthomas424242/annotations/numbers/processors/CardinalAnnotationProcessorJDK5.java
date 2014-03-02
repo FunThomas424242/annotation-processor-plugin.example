@@ -27,7 +27,7 @@ import com.sun.mirror.type.TypeMirror;
 import com.sun.mirror.util.SourcePosition;
 
 //@SupportedAnnotationTypes(value = { "gh.funthomas424242.annotations.numbers.Cardinal" })
-//@SupportedSourceVersion(SourceVersion.RELEASE_6)
+//@SupportedSourceVersion(SourceVersion.RELEASE_5)
 public class CardinalAnnotationProcessorJDK5 implements AnnotationProcessor {
 
     private static final String GENERATED_BASE_PACKAGE = "gh.funthomas424242.checked.numbers";

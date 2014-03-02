@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Cardinal Annotation Processor Plugin
-Bundle-SymbolicName: cardinal.annotationprocessor.plugin;singleton:=true
+Bundle-Name: Numbers Annotation Processor Plugin
+Bundle-SymbolicName: numbers.annotationprocessor.plugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: FunThomas424242
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
@@ -9,5 +9,5 @@ Require-Bundle: org.eclipse.jdt.apt.core,
  org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
-Export-Package: gh.funthomas424242.annotations,
- gh.funthomas424242.annotations.numbers
+Export-Package: gh.funthomas424242.annotations.numbers,
+ gh.funthomas424242.annotations.numbers.processors;uses:="com.sun.mirror.apt,javax.annotation.processing"

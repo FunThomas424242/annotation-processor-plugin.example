@@ -1,7 +1,6 @@
-package gh.funthomas424242.annotations;
+package gh.funthomas424242.annotations.numbers.processors;
 
 import gh.funthomas424242.annotations.numbers.Cardinal;
-import gh.funthomas424242.annotations.numbers.processors.CardinalAnnotationProcessorJDK5;
 
 import java.util.ArrayList;
 import java.util.Collection;
