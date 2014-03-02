@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="numbers.annotation.processor.example"
+      label="Number Annotation Processor Feature"
+      version="1.0.0.qualifier"
+      provider-name="FunThomas424242">
+
+   <description url="http://www.example.com/description">
+      Beispiel für 2 Annotation Processoren als Eclipse Plugin:
+* Cardinal Annotation Processor via JDK5 API
+* Ungerade Annotation Processor via JDK6 API
+
+Benutzte Entwicklungsplatform:
+* Windows Vista
+* Java 1.7
+* Eclipse Kepler
+   </description>
+
+   <copyright url="http://www.gnu.org/licenses/lgpl-3.0.txt">
+      LGPL v3
+   </copyright>
+
+   <license url="http://www.gnu.org/licenses/lgpl-3.0.txt">
+      LGPL v3
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.jdt.apt.core"/>
+      <import plugin="org.eclipse.core.runtime"/>
+   </requires>
+
+   <plugin
+         id="annotation.numbers"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="cardinal.annotationprocessor.plugin"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="ungerade.annotationprocessor.plugin"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
