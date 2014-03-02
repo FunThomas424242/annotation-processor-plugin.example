@@ -23,16 +23,16 @@ direkten Zuweisungen - auf und nicht erst bei der Verwendung der Eingabewerte.
 * Annotationen können mittels des *pluggable-annotation-processing-api* ohne
 eigene Nutzung des Reflection API verwendet werden um dem Compiler bei der
 Überprüfung der Quelltexte nützliche Hinweise für Fehlermeldungen zu geben.
-
-** Das *pluggable-annotation-processing-api* wurde mit *JavaSE 5* eingeführt.
+    
+ * Das *pluggable-annotation-processing-api* wurde mit *JavaSE 5* eingeführt.
 Der eigene Annotation Processor musste dabei von der Klasse *AnnotationProcessor*
-abgeleitet werden. Bei der Implemmentierung wurde dann die 
+abgeleitet werden. Bei der Implemmentierung wurden dann die 
 [Java 5 Mirror APIs](http://docs.oracle.com/javase/1.5.0/docs/guide/apt/mirror/overview-summary.html)
 benutzt. Diese Implementierung wurde in *Eclipse Version 3.2* vom *JDT-APT Feature* 
 unterstützt. So konnten Hinweise der AnnotationProcessors direkt beim Editieren
 ausgewertet werden. Bei dieser API musste immer eine Factory bereitgestellt werden.
 
-** Mit *Java SE 6* wurde das *pluggable-annotation-processing-api* bereinigt und
+ * Mit *JavaSE 6* wurde das *pluggable-annotation-processing-api* bereinigt und
 konsequent in den *javax.annotation.processing* Bereich ausgelagert. Diese API 
 wurde dann durch *Eclipse Version 3.3* vom *JDT-APT Feature* unterstützt.
 Bei dieser API wird von der Klasse *AbstractProcessor* abgeleitet und
@@ -43,20 +43,20 @@ das *pluggable-annotation-processing-api* unterstützt, kann man einfach
 ein Eclipse Plugin schreiben welches den Extension Point 
 *org.eclipse.jdt.apt.core.annotationProcessorFactory* realisiert. Es empfiehlt 
 sich je Plugin konsequent nur ein API (entweder das von JDK5 oder das von JDK6)
-zu nutzen. Ein Mix nicht empfohlen.
+zu nutzen. Ein Mix ist nicht empfohlen.
 
-* Die Benutzung des AnnotationProcessor kann dann auf folgenden Wegen geschehen:
-** Aufruf auf der Kommandozeile (pure Java ohne Eclipse) mit: 
+* Die Benutzung des *AnnotationProcessor* kann dann auf folgenden Wegen geschehen:
+ * Aufruf auf der Kommandozeile (pure Java ohne Eclipse) mit: 
 
-javac -processor packages.MyAnnotationsProcessorClass TestClass.java
+  > javac -processor packages.MyAnnotationsProcessorClass TestClass.java
 
-** Aufruf über das maven-compiler-plugin version 3.1. Dort ist in der 
-Konfiguration das AnnotationProcessor Tag einzutragen.
+ * Aufruf über das *maven-compiler-plugin* version 3.1. Dort ist in der 
+Konfiguration das *AnnotationProcessor Tag* einzutragen.
 
-** Einbinden in Eclipse über die Projektproperties und dort in der Compiler 
+ * Einbinden in Eclipse über die Projektproperties und dort in der Compiler 
 Konfiguration.
 
-** Installation in Eclipse als Plugin. Diese Methode hat den Vorteil, das der 
+ * Installation in Eclipse als Plugin. Diese Methode hat den Vorteil, das der 
 Processor gleich im Projektmenü auswählbar ist und nicht per Dateipfad zum 
 JAR gesucht werden muss.
 
