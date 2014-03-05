@@ -69,6 +69,13 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.java</groupId>
+			<artifactId>tools</artifactId>
+			<version>LATEST</version>
+			<scope>system</scope>
+			<systemPath>${env.JAVA_HOME}/lib/tools.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>numbers</artifactId>
 			<version>${project.version}</version>
@@ -91,12 +98,14 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
+					<processors>
+						<processor>gh.funthomas424242.annotation.numbers.processors.CardinalAnnotationProcessorJDK5</processor>
+					</processors>
 					<compilerArguments>
+						<AaddGeneratedAnnotation>true</AaddGeneratedAnnotation>
+						<Adebug>true</Adebug>
 						<processor>gh.funthomas424242.annotation.numbers.processors.UngeradeAnnotationProcessorJDK6</processor>
 					</compilerArguments>
-					<!-- >annotationProcessors> <processor>gh.funthomas424242.annotation.numbers.processors.CardinalAnnotationProcessorJDK5</processor> 
-						<processor>gh.funthomas424242.annotation.numbers.processors.UngeradeAnnotationProcessorJDK6</processor> 
-						</annotationProcessors -->
 				</configuration>
 			</plugin>
 		</plugins>
